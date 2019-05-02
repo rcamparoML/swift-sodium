@@ -23,9 +23,17 @@ public struct Sodium {
 }
 
 extension Sodium {
+    #if swift(>=4.0)
     private static let once: Void = {
         guard sodium_init() >= 0 else {
             fatalError("Failed to initialize libsodium")
         }
     }()
+    #else
+    private static let once: Void = {
+        guard sodium_init() >= 0 else {
+            fatalError("Failed to initialize libsodium")
+        }
+    }()
+    #endif
 }

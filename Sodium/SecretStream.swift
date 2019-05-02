@@ -26,8 +26,13 @@ extension SecretStream.XChaCha20Poly1305 {
 
 extension SecretStream.XChaCha20Poly1305 {
     public class PushStream {
+        #if swift(>=4.0)
         private var state: crypto_secretstream_xchacha20poly1305_state
         private var _header: Header
+        #else
+        fileprivate var state: crypto_secretstream_xchacha20poly1305_state
+        fileprivate var _header: Header
+        #endif
 
         init?(secretKey: Key) {
             guard secretKey.count == KeyBytes else { return nil }
@@ -46,7 +51,12 @@ extension SecretStream.XChaCha20Poly1305 {
 
 extension SecretStream.XChaCha20Poly1305 {
     public class PullStream {
+        #if swift(>=4.0)
         private var state: crypto_secretstream_xchacha20poly1305_state
+        #else
+        fileprivate var state: crypto_secretstream_xchacha20poly1305_state
+        #endif
+        
 
         init?(secretKey: Key, header: Header) {
             guard header.count == HeaderBytes, secretKey.count == KeyBytes else {
